@@ -2,14 +2,10 @@ package cp.inventarios.controlador;
 
 import cp.inventarios.modelo.Producto;
 import cp.inventarios.servicio.ProductoServicio;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +16,7 @@ public class ProductoControlador {
     private static final Logger logger = LoggerFactory.getLogger(ProductoControlador.class);
 
     @Autowired
-    private ProductoServicio  productoServicio;
+    private ProductoServicio productoServicio;
 
     @GetMapping("/productos") //Ruta donde se desplegaran los productos
     public List<Producto> obtenerProductos(){
@@ -28,5 +24,11 @@ public class ProductoControlador {
         logger.info("Listado de productos de la lista:");
         productos.forEach(producto -> logger.info(producto.toString()));
         return productos;
+    }
+
+    @PostMapping("/productos")
+    public Producto guardarProducto(@RequestBody Producto producto) {
+        logger.info("Producto a agregar: " + producto.toString());
+        return this.productoServicio.guardarProducto(producto);
     }
 }
