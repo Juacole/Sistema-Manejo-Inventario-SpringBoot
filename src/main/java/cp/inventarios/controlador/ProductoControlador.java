@@ -43,4 +43,18 @@ public class ProductoControlador {
             throw new RecursoNoEncontrado("No se encontro el id: " + id);
         }
     }
+
+    @PutMapping("/productos/{id}")
+    public ResponseEntity<Producto> actualizarProductoPorId(
+            @PathVariable Integer id,
+            @RequestBody Producto productoRecibido
+    ){
+        Producto producto = this.productoServicio.buscarProductoPorId(id);
+        producto.setDescripcion(productoRecibido.getDescripcion());
+        producto.setPrecio(productoRecibido.getPrecio());
+        producto.setExistencias(productoRecibido.getExistencias());
+
+        this.productoServicio.guardarProducto(producto);
+        return ResponseEntity.ok(producto);
+    }
 }
